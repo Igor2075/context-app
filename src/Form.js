@@ -14,34 +14,60 @@ import Select from "@material-ui/core/Select";
 import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles/FormStyles";
 import { InputLabel } from "@material-ui/core";
+import { LanguageContext } from "./context/LanguageContext";
+
+const dict = {
+	english: {
+		email: "Email",
+		password: "Password",
+		singnin: "Sign In",
+		remember: "Remember Me",
+	},
+	dutch: {
+		email: "Email Addres",
+		password: "Wachtwoord",
+		singnin: "Log in",
+		remember: "Onthoudt Me",
+	},
+	spanish: {
+		email: "correo electronico",
+		password: "Contraseña",
+		singnin: "Entra",
+		remember: "Recordame",
+	},
+};
 
 class Form extends Component {
+	static contextType = LanguageContext;
 	render() {
 		const { classes } = this.props;
+		const { language, changeLanguage } = this.context;
 		return (
 			<div className={classes.main}>
 				<Paper className={classes.paper}>
 					<Avatar className={classes.avatar}>
 						<LockOutlined />
 					</Avatar>
-					<Typography variant="h5">Sign In</Typography>
-					<Select value="english">
+					<Typography variant="h5">{dict[language].singnin}</Typography>
+					<Select value={language} onChange={changeLanguage}>
 						<MenuItem value="english">English</MenuItem>
 						<MenuItem value="dutch">Dutch</MenuItem>
 						<MenuItem value="spanish">Spanish</MenuItem>
 					</Select>
 					<form className={classes.form}>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="email">Email</InputLabel>
+							<InputLabel htmlFor="email">{dict[language].email}</InputLabel>
 							<Input id="email" name="email" autoFocus></Input>
 						</FormControl>
 						<FormControl margin="normal" required fullWidth>
-							<InputLabel htmlFor="password">Password</InputLabel>
+							<InputLabel htmlFor="password">
+								{dict[language].password}
+							</InputLabel>
 							<Input id="password" name="password" type="password"></Input>
 						</FormControl>
 						<FormControlLabel
 							control={<Checkbox color="primary" />}
-							label="Remember Me"
+							label={dict[language].remember}
 						/>
 						<Button
 							variant="contained"
@@ -49,7 +75,7 @@ class Form extends Component {
 							fullWidth
 							color="primary"
 							className={classes.submit}>
-							Sign In
+							{dict[language].singnin}
 						</Button>
 					</form>
 				</Paper>
